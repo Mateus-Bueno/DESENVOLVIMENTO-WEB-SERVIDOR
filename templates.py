@@ -1,6 +1,6 @@
 # A very simple Flask Hello World app for you to get started with...
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from datetime import datetime
@@ -11,11 +11,15 @@ moment = Moment(app)
 
 @app.route('/')
 def index():
-    return render_template('index.html', current_time=datetime.utcnow())
+    return render_template('index.html', current_time = datetime.utcnow())
 
-@app.route('/user/<name>')
-def name(name):
-    return render_template('user.html', name=name)
+@app.route('/user/<name>/<id>/<institution>')
+def name(name, id, institution):
+    return render_template('user.html', name = name, id = id, institution = institution)
+
+@app.route('/contextorequisicao/<name>')
+def contextorequisicao(name):
+    return render_template('contextorequisicao.html', name = name, user_agent = request.headers.get('User-Agent'), user_ip = request.remote_addr, app_host = request.host)
 
 @app.errorhandler(404)
 def page_not_found(e):
